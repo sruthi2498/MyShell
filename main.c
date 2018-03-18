@@ -2,26 +2,33 @@
 
 
 int main(){
-	InitCommand();
-	InitSimpleCommand();
 
-	int ret;
 
-	ret=insertArgument("ls");
-	ret=insertArgument("-l");
-	ret=insertArgument(NULL);
+	if(!yyparse()){
+			printf("\nParsed Successfully\n");
+			DisplayCommand();
+	}
+	else printf("\nParsing Unsuccessful\n");
+	// InitCommand();
+	// InitSimpleCommand();
 
-	ret=InsertSimpleCommand(CurrentSimpleCommand);
+	// int ret;
 
-	InitSimpleCommand();
-	ret=insertArgument("mkdir");
-	ret=insertArgument("test");
-	ret=insertArgument(NULL);
+	// ret=insertArgument("ls");
+	// ret=insertArgument("-l");
+	// ret=insertArgument(NULL);
 
-	ret=InsertSimpleCommand(CurrentSimpleCommand);
+	// ret=InsertSimpleCommand(CurrentSimpleCommand);
 
-	DisplayCommand();
+	// InitSimpleCommand();
+	// ret=insertArgument("mkdir");
+	// ret=insertArgument("test");
+	// ret=insertArgument(NULL);
 
-	execute();
+	// ret=InsertSimpleCommand(CurrentSimpleCommand);
+
+	// DisplayCommand();
+
+	// execute();
 
 }
