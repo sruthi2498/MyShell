@@ -3,6 +3,7 @@
 */
 %{
 	#include <string.h>
+	#include "all_include.h"
 	#include "y.tab.h"
 	void yyerror(const char *);
 %}

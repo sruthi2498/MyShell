@@ -1,6 +1,7 @@
 %{
 
 	#include <stdio.h>
+	#include "all_include.h"
 	void yyerror(const char *);
 	int yylex();
 %}
@@ -19,12 +20,18 @@ P 	: command_line NEWLINE
   	|
   	; 
 
-command_line	: arg_list PIPE  command_line	
-				| arg_list  				{printf("command_line -> arg_list, Pushing all args\n");YYACCEPT;}
+command_line	: arg_list PIPE command_line	
+				| arg_list  				{printf("command_line -> arg_list, Pushing all args\n"); 
+											 Send_all_arg();
+											 YYACCEPT;}
 				;
 
-arg_list 		: arg arg_list 				{printf("arg_list->arg arg_list, pushing argu %s\n", $1	);}
-		 		| arg 						{printf("arg_list gives New command , Pushing arg %s  \n", $1);}
+arg_list 		: arg arg_list 				{printf("arg_list->arg arg_list, pushing argu %s\n", $1	); Insert_parsed_arg($1);}
+		 		| arg 						{printf("arg_list gives New command , Pushing arg %s  \n", $1);
+		 									InitSimpleCommand();
+		 									printf("between");
+		 									Init_parsed_args();
+		 									Insert_parsed_arg($1);}
 		 		;
 
 arg 		 	: WORD 	
