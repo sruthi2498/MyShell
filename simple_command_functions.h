@@ -1,3 +1,4 @@
+
 void InitSimpleCommand();
 	//-> construct simple empty command
 

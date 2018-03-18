@@ -1,14 +1,15 @@
 #include "all_include.h"
 
 int InitCommand(){
-
 	CurrentCommand._numberOfAvailableSimpleCommands=MAX_NUMBER_OF_SIMPLE_COMMANDS;
     CurrentCommand._numberOfSimpleCommands=0;
 
     return 1;
 }
 
-int insertSimpleCommand(struct SimpleCommand simpleCommand){
+
+
+int InsertSimpleCommand(struct SimpleCommand simpleCommand){
 
 	//CurrentCommand._simpleCommands is the array of simpleCommands
 	//CurrentCommand._numberOfSimpleCommands will give the index in that array
@@ -39,9 +40,9 @@ void DisplayCommand(){
         printf("                  numberOfArguments : %d\n",SC._numberOfArguments); 
         
         for(int j=0;j<SC._numberOfAvailableArguments;j++){
-    	 	printf("                             Arg %d : %s",j,SC._arguments[j]);
+    	 	printf("                             Arg %d : %s\n",j,SC._arguments[j]);
     	}
-        printf("---------------\n");
+        printf("                          ---------------\n");
     }
     
     printf("                            OutFile : %s\n",CurrentCommand._outFile);

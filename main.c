@@ -3,14 +3,15 @@
 
 int main(){
 	InitCommand();
-	CurrentSimpleCommand=InitSimpleCommand();
+	InitSimpleCommand();
 
 	int ret;
 
 	ret=insertArgument("ls");
+	ret=insertArgument("-v");
 
 	printf("returned %d\n",ret);
-	ret=insertSimpleCommand(CurrentSimpleCommand);
+	ret=InsertSimpleCommand(CurrentSimpleCommand);
 
 	DisplayCommand();
 

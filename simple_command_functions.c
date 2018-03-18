@@ -31,3 +31,4 @@ int insertArgument( char * argument ){
 	printf("Inserted %s\n",CurrentSimpleCommand._arguments[CurrentSimpleCommand._numberOfArguments]);
 	return 1;
 }
+
