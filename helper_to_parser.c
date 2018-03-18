@@ -13,6 +13,7 @@ int Init_parsed_args(){
 //Send the arguments in reverse order to actual SimpleComand
 int Send_all_args(){
 
+	InitSimpleCommand();
 	printf("Sending all args %s\n", buf);
 	for(int i=count_arg-1; i>=0; i--){
 		insertArgument(parsed_arg[i]);
