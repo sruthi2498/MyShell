@@ -13,5 +13,5 @@ yacc_config : shell.y
 main : main.c all_include.h
 	gcc -g $(CFLAGS) lex.yy.c y.tab.c -Wall main.c simple_command_functions.o command_functions.o helper_to_parser.o -ll -w -o main 
 binaries= simple_command command main
-clean:
+clean :
 	rm -f $(binaries) *.o
