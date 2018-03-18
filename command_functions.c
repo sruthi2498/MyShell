@@ -26,20 +26,46 @@ int InsertSimpleCommand(struct SimpleCommand simpleCommand){
  	return 1;
 }
 
+
+void execute(){
+    int ret; 
+    for (int i = 0; i <CurrentCommand._numberOfSimpleCommands; i++ ){
+        ret = fork();
+        if (ret == 0) { 
+            printf("forking child process executing %s\n",CurrentCommand._simpleCommands[i]._arguments[0]);
+            //child 
+            //printf("1st : %s\n",)
+            execvp(CurrentCommand._simpleCommands[i]._arguments[0],CurrentCommand._simpleCommands[i]._arguments);
+            perror("execvp");
+            _exit(1);
+        }
+        else if(ret < 0){
+            perror("fork");
+            return;
+        }
+        // Parent shell continue
+        
+    }// for
+    if (!CurrentCommand._background){
+        // wait for last process
+        waitpid(ret, NULL);
+    } 
+}
+
 void DisplayCommand(){
 
 	printf("COMMAND STRUCTURE\n");
 	printf("    numberOfAvailableSimpleCommands : %d\n",CurrentCommand._numberOfAvailableSimpleCommands);
     printf("             numberOfSimpleCommands : %d\n",CurrentCommand._numberOfSimpleCommands);
 
-    printf("                    SIMPLE COMMANDS :\n");
+    printf("                            \nSIMPLE COMMANDS\n");
     for(int i=0;i<CurrentCommand._numberOfSimpleCommands;i++){
     	printf("                     Simple command : %d\n",i);
     	struct SimpleCommand SC=CurrentCommand._simpleCommands[i];
     	printf("         numberOfAvailableArguments : %d\n",SC._numberOfAvailableArguments); 
         printf("                  numberOfArguments : %d\n",SC._numberOfArguments); 
         
-        for(int j=0;j<SC._numberOfAvailableArguments;j++){
+        for(int j=0;j<SC._numberOfArguments;j++){
     	 	printf("                             Arg %d : %s\n",j,SC._arguments[j]);
     	}
         printf("                          ---------------\n");

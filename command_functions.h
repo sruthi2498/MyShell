@@ -13,4 +13,3 @@ void execute();
 void clear();
 
 void DisplayCommand();
-void clear();
