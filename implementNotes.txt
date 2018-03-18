@@ -10,8 +10,7 @@
 }
 
 %token NEWLINE GREAT LESS GREATGREAT GREATAMP PIPE AMP NOTOKEN
-%token <string_val> WORD 
-%type <string_val> arg
+%token <string_val> VAR
 
 
 %%
@@ -21,10 +20,11 @@ P 	: command_line NEWLINE
 
 command_line	: arg_list PIPE  command_line	
 				| arg_list  				{printf("command_line -> arg_list, Pushing all args\n");YYACCEPT;}
+				|
 				;
 
-arg_list 		: arg arg_list 				{printf("arg_list->arg arg_list, pushing argu %s\n", $1	);}
-		 		| arg 						{printf("arg_list gives New command , Pushing arg %s  \n", $1);}
+arg_list 		: arg arg_list 				{//Push arg entry; printf("arg_list->arg arg_list, pushing argu \n");}
+		 		| arg 						{//create new entry for command; //Push arg entry; printf("arg_list gives New command , Pushing arg %s and %s \n", yylval.string_val, $$);}
 		 		;
 
 arg 		 	: WORD 	
