@@ -761,46 +761,48 @@ case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
 #line 11 "shell.l"
-{return NEWLINE; }
+{	InitCommand();
+			printf("\nhash$");
+			return NEWLINE; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 12 "shell.l"
+#line 14 "shell.l"
 { /* Discard spaces and tabs */}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 13 "shell.l"
+#line 15 "shell.l"
 {return GREAT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 14 "shell.l"
+#line 16 "shell.l"
 {return LESS;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 15 "shell.l"
+#line 17 "shell.l"
 {return GREATGREAT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 16 "shell.l"
+#line 18 "shell.l"
 {return GREATAMP;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 17 "shell.l"
+#line 19 "shell.l"
 {return PIPE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 18 "shell.l"
+#line 20 "shell.l"
 {return AMP;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 19 "shell.l"
+#line 21 "shell.l"
 {
 		/* Assume that file names have only alpha chars */
 		yylval.string_val = strdup(yytext);
@@ -808,17 +810,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 23 "shell.l"
+#line 25 "shell.l"
 { 
 		return NOTOKEN;
 		}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 26 "shell.l"
+#line 28 "shell.l"
 ECHO;
 	YY_BREAK
-#line 822 "lex.yy.c"
+#line 824 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1819,6 +1821,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 26 "shell.l"
+#line 28 "shell.l"
 
 

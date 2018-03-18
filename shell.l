@@ -8,7 +8,9 @@
 	void yyerror(const char *);
 %}
 %%
-\n 		{return NEWLINE; }
+\n 		{	InitCommand();
+			printf("\nhash$");
+			return NEWLINE; }
 [ \t] 	{ /* Discard spaces and tabs */}
 ">" 	{return GREAT;}
 "<" 	{return LESS;}

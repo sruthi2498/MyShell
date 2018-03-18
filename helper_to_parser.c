@@ -13,8 +13,9 @@ int Init_parsed_args(){
 //Send the arguments in reverse order to actual SimpleComand
 int Send_all_args(){
 
-	printf("Sending all args \n");
+	//printf("Sending all args \n");
 	for(int i=count_arg-1; i>=0; i--){
+		//printf("sending %s\n",parsed_arg[i]);
 		insertArgument(parsed_arg[i]);
 		
 	}	
@@ -30,7 +31,7 @@ int Send_all_args(){
 //Insert each argument into intermediate array (in reverse order)
 int Insert_parsed_arg(char *buf){
 
-	printf("Inserting parsed arg %s\n", buf);
+	//printf("Inserting parsed arg %s\n", buf);
 	char *temp = strdup(buf);
 	parsed_arg[count_arg] = temp;
 	count_arg++;
