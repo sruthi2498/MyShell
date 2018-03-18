@@ -36,12 +36,15 @@ command_line	:
 											}
 				;
 
+
 arg_list 		: arg arg_list 				{
 												//printf("arg_list->arg arg_list, pushing arg %s\n", $1	); 
 												Insert_parsed_arg($1);}
 		 		| arg 						{
 		 									//printf("arg_list gives New command , Pushing arg %s  \n", $1);
 		 									InitSimpleCommand();
+
+
 		 									Init_parsed_args();
 		 									Insert_parsed_arg($1);}
 		 		;
