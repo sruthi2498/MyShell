@@ -1,4 +1,4 @@
-#include "include_all.h"
+#include "all_include.h"
 
 //Initialize a global intermediate array to store arguments
 int Init_parsed_args(){
@@ -13,7 +13,7 @@ int Init_parsed_args(){
 //Send the arguments in reverse order to actual SimpleComand
 int Send_all_args(){
 
-	printf("Sending all args %s\n", buf);
+	printf("Sending all args \n");
 	for(int i=count_arg-1; i>=0; i--){
 		insertArgument(parsed_arg[i]);
 		

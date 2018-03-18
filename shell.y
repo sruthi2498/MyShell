@@ -22,7 +22,7 @@ P 	: command_line NEWLINE
 
 command_line	: arg_list PIPE command_line	
 				| arg_list  				{printf("command_line -> arg_list, Pushing all args\n"); 
-											 Send_all_arg();
+											 Send_all_args();
 											 YYACCEPT;}
 				;
 
@@ -41,11 +41,4 @@ arg 		 	: WORD
 %%
 void yyerror(const char * p){
 	printf("\nerror : %s\n",p);
-}
-
-int main(){
-	if(!yyparse()){
-			printf("\nParsed Successfully\n");
-	}
-	else printf("\nParsing Unsuccessful\n");
 }
