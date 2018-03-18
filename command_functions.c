@@ -32,7 +32,7 @@ void execute(){
     for (int i = 0; i <CurrentCommand._numberOfSimpleCommands; i++ ){
         ret = fork();
         if (ret == 0) { 
-            printf("forking child process executing %s\n",CurrentCommand._simpleCommands[i]._arguments[0]);
+            //printf("forking child process executing %s\n",CurrentCommand._simpleCommands[i]._arguments[0]);
             //child 
             //printf("1st : %s\n",)
             execvp(CurrentCommand._simpleCommands[i]._arguments[0],CurrentCommand._simpleCommands[i]._arguments);

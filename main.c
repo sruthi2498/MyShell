@@ -3,12 +3,13 @@
 
 int main(){
 
-
+	InitCommand();
+	printf("\nhash$");
 	if(!yyparse()){
-			printf("\nParsed Successfully\n");
-			DisplayCommand();
-	}
-	else printf("\nParsing Unsuccessful\n");
+			//printf("\nParsed Successfully\n");
+
+	} 
+		//printf("\nParsing Unsuccessful\n");
 	// InitCommand();
 	// InitSimpleCommand();
 
