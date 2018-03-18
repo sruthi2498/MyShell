@@ -8,11 +8,20 @@ int main(){
 	int ret;
 
 	ret=insertArgument("ls");
-	ret=insertArgument("-v");
+	ret=insertArgument("-l");
+	ret=insertArgument(NULL);
 
-	printf("returned %d\n",ret);
+	ret=InsertSimpleCommand(CurrentSimpleCommand);
+
+	InitSimpleCommand();
+	ret=insertArgument("mkdir");
+	ret=insertArgument("test");
+	ret=insertArgument(NULL);
+
 	ret=InsertSimpleCommand(CurrentSimpleCommand);
 
 	DisplayCommand();
+
+	execute();
 
 }

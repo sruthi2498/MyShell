@@ -13,14 +13,13 @@ void InitSimpleCommand(){
     }
 
 
-    printf("InitSimpleCommand over\n");
-
+    //printf("InitSimpleCommand over\n");
 
 }
 
 int insertArgument( char * argument ){
 
-	printf("Inserting arg %s\n",argument);
+	//printf("Inserting arg %s\n",argument);
 	if( CurrentSimpleCommand._numberOfArguments >= CurrentSimpleCommand._numberOfAvailableArguments){
 		printf("Max number of arguments reached, insertArgument FAILED\n");
 		return 0;
@@ -29,7 +28,7 @@ int insertArgument( char * argument ){
 	CurrentSimpleCommand._arguments[CurrentSimpleCommand._numberOfArguments]=argument;
 	
 	CurrentSimpleCommand._numberOfArguments++;
-	printf("Inserted %s\n",CurrentSimpleCommand._arguments[CurrentSimpleCommand._numberOfArguments]);
+	//printf("Inserted %s\n",CurrentSimpleCommand._arguments[CurrentSimpleCommand._numberOfArguments]);
 	return 1;
 }
 
