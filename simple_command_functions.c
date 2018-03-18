@@ -7,6 +7,7 @@ void InitSimpleCommand(){
     
     CurrentSimpleCommand._arguments=malloc(sizeof(char *)*CurrentSimpleCommand._numberOfAvailableArguments);
 
+    //Allocates space for 10 possible arguments
     for(int i=0;i<CurrentSimpleCommand._numberOfAvailableArguments;i++){
     	 CurrentSimpleCommand._arguments[i]=malloc(sizeof(char)*MAX_LEN_OF_ARG);
     }

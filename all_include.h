@@ -4,6 +4,7 @@
 
 #include "simple_command_functions.h"
 #include "command_functions.h"
+#include "helper_to_parser.h"
 
 #define MAX_NUMBER_OF_SIMPLE_COMMANDS 10
 #define MAX_NUMBER_OF_ARGUMENTS 10
@@ -44,3 +45,6 @@ struct Command {
 struct Command CurrentCommand;
 struct SimpleCommand CurrentSimpleCommand;
 
+char** parsed_arg;
+char** parsed_final_arg;
+int count_arg;

@@ -19,9 +19,10 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #line 2 "shell.y"
 
 	#include <stdio.h>
+	#include "all_include.h"
 	void yyerror(const char *);
 	int yylex();
-#line 8 "shell.y"
+#line 9 "shell.y"
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
@@ -32,7 +33,7 @@ typedef union {
 	char *string_val;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 35 "y.tab.c"
+#line 36 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -167,7 +168,7 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 35 "shell.y"
+#line 42 "shell.y"
 void yyerror(const char * p){
 	printf("\nerror : %s\n",p);
 }
@@ -178,7 +179,7 @@ int main(){
 	}
 	else printf("\nParsing Unsuccessful\n");
 }
-#line 180 "y.tab.c"
+#line 181 "y.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -381,18 +382,24 @@ yyreduce:
     switch (yyn)
     {
 case 4:
-#line 23 "shell.y"
-	{printf("command_line -> arg_list, Pushing all args\n");YYACCEPT;}
+#line 24 "shell.y"
+	{printf("command_line -> arg_list, Pushing all args\n"); 
+											 Send_all_arg();
+											 YYACCEPT;}
 break;
 case 5:
-#line 26 "shell.y"
-	{printf("arg_list->arg arg_list, pushing argu %s\n", yystack.l_mark[-1].string_val	);}
+#line 29 "shell.y"
+	{printf("arg_list->arg arg_list, pushing argu %s\n", yystack.l_mark[-1].string_val	); Insert_parsed_arg(yystack.l_mark[-1].string_val);}
 break;
 case 6:
-#line 27 "shell.y"
-	{printf("arg_list gives New command , Pushing arg %s  \n", yylval.string_val);}
+#line 30 "shell.y"
+	{printf("arg_list gives New command , Pushing arg %s  \n", yystack.l_mark[0].string_val);
+		 									InitSimpleCommand();
+		 									printf("between");
+		 									Init_parsed_args();
+		 									Insert_parsed_arg(yystack.l_mark[0].string_val);}
 break;
-#line 394 "y.tab.c"
+#line 401 "y.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
