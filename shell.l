@@ -9,7 +9,7 @@
 %}
 %%
 \n 		{	InitCommand();
-			printf("\nhash$");
+			prompt();
 			return NEWLINE; }
 [ \t] 	{ /* Discard spaces and tabs */}
 ">" 	{return GREAT;}

@@ -4,7 +4,13 @@
 int main(){
 
 	InitCommand();
-	printf("\nhash$");
+	
+	Prompt=malloc(sizeof(char)*PROMPT_SIZE);
+	strcpy(Prompt,"hash:~");
+
+
+	prompt();
+
 	if(!yyparse()){
 			//printf("\nParsed Successfully\n");
 

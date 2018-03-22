@@ -12,4 +12,8 @@ void print();
 void execute();
 void clear();
 
+void quit();
+
 void DisplayCommand();
+
+void cd(struct  SimpleCommand SC);
