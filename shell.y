@@ -32,7 +32,7 @@ command_line	:
 											 InsertSimpleCommand(CurrentSimpleCommand);
 											  //DisplayCommand();
 											execute();
-											printf("\nhash$");
+											prompt();
 											}
 				;
 

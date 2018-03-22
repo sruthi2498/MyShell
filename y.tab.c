@@ -1237,9 +1237,9 @@ yyreduce:
 											//printf("command_line -> arg_list, Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
-											 //DisplayCommand();
+											  //DisplayCommand();
 											execute();
-											printf("\nhash$");
+											prompt();
 											}
 #line 1245 "y.tab.c" /* yacc.c:1646  */
     break;

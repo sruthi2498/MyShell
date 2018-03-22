@@ -11,6 +11,8 @@
 #define MAX_LEN_OF_ARG 20
 #define MAX_NUMBER_OF_SIMPLE_COMMANDS 100
 
+
+#define PROMPT_SIZE 100
  
 // Describes a simple command and arguments 
 struct SimpleCommand { 
@@ -48,3 +50,5 @@ struct SimpleCommand CurrentSimpleCommand;
 char** parsed_arg;
 char** parsed_final_arg;
 int count_arg;
+
+char * Prompt;

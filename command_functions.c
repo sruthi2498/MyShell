@@ -30,26 +30,64 @@ int InsertSimpleCommand(struct SimpleCommand simpleCommand){
 void execute(){
     int ret; 
     for (int i = 0; i <CurrentCommand._numberOfSimpleCommands; i++ ){
-        ret = fork();
-        if (ret == 0) { 
-            //printf("forking child process executing %s\n",CurrentCommand._simpleCommands[i]._arguments[0]);
-            //child 
-            //printf("1st : %s\n",)
-            execvp(CurrentCommand._simpleCommands[i]._arguments[0],CurrentCommand._simpleCommands[i]._arguments);
-            perror("execvp");
-            _exit(1);
+        if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"cd")==0){
+                //printf("\ncaling cd");
+                cd(CurrentCommand._simpleCommands[i]);
+
+                //printf("\nback from cd");
         }
-        else if(ret < 0){
-            perror("fork");
-            return;
+        else{
+            ret = fork();
+            if (ret == 0) { 
+                //]printf("forking child process executing %s\n",CurrentCommand._simpleCommands[i]._arguments[0]);
+                //child 
+               // printf("1st : %s\n",CurrentCommand._simpleCommands[i]._arguments[0]);
+                if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"exit")==0){
+                    quit();
+                }
+                else{
+                    execvp(CurrentCommand._simpleCommands[i]._arguments[0],CurrentCommand._simpleCommands[i]._arguments);
+                    perror("execvp");
+                }
+                
+                _exit(1);
+            }
+            else if(ret < 0){
+                perror("fork");
+                return;
+            }
+
         }
+        
         // Parent shell continue
+    
         
     }// for
     if (!CurrentCommand._background){
         // wait for last process
         waitpid(ret, NULL);
     } 
+}
+
+void cd(struct  SimpleCommand SC){
+
+    
+    // if(strcmp(SC._arguments[1],"..")!=0 && strcmp(SC._arguments[1],".")!=0 ){
+    //     strcat(Prompt,"/");
+    //     strcat(Prompt,SC._arguments[1]);
+    // }               
+    if(chdir(SC._arguments[1])==-1)printf("Could not cd\n");  
+}
+void prompt(){
+    printf("\n%s",Prompt);
+    printf("$");
+}
+
+void quit(){
+    printf("\nExit...\n");
+    fflush( stdout );
+    exit(1);
+
 }
 
 void DisplayCommand(){

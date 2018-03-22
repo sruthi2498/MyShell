@@ -762,7 +762,7 @@ case 1:
 YY_RULE_SETUP
 #line 11 "shell.l"
 {	InitCommand();
-			printf("\nhash$");
+			prompt();
 			return NEWLINE; }
 	YY_BREAK
 case 2:
