@@ -16,4 +16,6 @@ void quit();
 
 void DisplayCommand();
 
+char * RecreateCommand();
+
 void cd(struct  SimpleCommand SC);

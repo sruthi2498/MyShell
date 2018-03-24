@@ -16,8 +16,8 @@
 "<" 	{return LESS;}
 ">>" 	{return GREATGREAT;}
 ">&" 	{return GREATAMP;}
-“|” 	{return PIPE;}
-“&” 	{return AMP;}
+"|" 	{return PIPE;}
+"&" 	{return AMP;}
 [^ \t\n][^ \t\n]* {
 		/* Assume that file names have only alpha chars */
 		yylval.string_val = strdup(yytext);

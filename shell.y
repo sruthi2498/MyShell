@@ -4,6 +4,7 @@
 	#include "all_include.h"
 	void yyerror(const char *);
 	int yylex();
+	extern char yytext[];
 %}
 
 %union {
@@ -12,25 +13,29 @@
 
 %token NEWLINE GREAT LESS GREATGREAT GREATAMP PIPE AMP NOTOKEN
 %token <string_val> WORD 
-%type <string_val> arg
-
+%type <string_val> arg 
 
 %%
-P 	: 
+P 	:                          
 
 	|	command_line NEWLINE P {
-								//printf("valid\n");
+								printf("valid %s\n",yytext);
 								}
   	; 
 
 command_line	: 
 
-				| arg_list PIPE command_line	
+				| arg_list PIPE command_line
 				| arg_list  				{
 											//printf("command_line -> arg_list, Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
-											  //DisplayCommand();
+											 // DisplayCommand();
+											 command_to_be_pushed=RecreateCommand();
+											 printf("\ncommand %s\n",command_to_be_pushed);
+											 if(push(command_to_be_pushed)!=1)printf("could not push\n");
+											// push(command_to_be_pushed);
+											displayStack();
 											execute();
 											prompt();
 											}
