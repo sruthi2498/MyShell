@@ -31,6 +31,14 @@ void execute(){
     int ret; 
     struct stack_elem command_to_be_pushed;
     for (int i = 0; i <CurrentCommand._numberOfSimpleCommands; i++ ){
+        /*
+        current_command=CurrentCommand._simpleCommands[i]._arguments[0]
+        alias_struct=get_alias(cureent_command)
+        if True:
+            current_command=alias_struct.command
+        if False:
+        */
+        //CD
         if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"cd")==0){
                 //printf("\ncaling cd");
                 cd(CurrentCommand._simpleCommands[i]);
@@ -39,9 +47,25 @@ void execute(){
                 if(push(command_to_be_pushed)!=1)printf("could not push\n");
                 //printf("\nback from cd");
         }
+        //HISTORY
+        else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"history")==0){
+              history();
+              command_to_be_pushed=GenerateStackElem();
+              command_to_be_pushed.pid=getpid();
+              if(push(command_to_be_pushed)!=1)printf("could not push\n");
+          }
+        //EDITOR
+        else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"editor")==0){
+                    
+                    command_to_be_pushed=GenerateStackElem();
+                    command_to_be_pushed.pid=getpid();
+                    if(push(command_to_be_pushed)!=1)printf("could not push\n");
+                }
+        //QUIT
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"exit")==0){
                     quit();
                 }
+        //SET ENV VAR
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"export")==0){   
             if(CurrentCommand._simpleCommands[i]._numberOfArguments == 3){
                 char *name = malloc(sizeof(char)*50);
@@ -54,20 +78,16 @@ void execute(){
                 printf("Wrong number of arguments to set environment variable. Expects input to be in the form - export newvar='path/to/file'  ");
             }
         }
+        //PRINT ENV VAR
         else if( (strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"printenv")==0) ||
                     (strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"env")==0)){
                 myPrintEnv();
         }
+       //UNSET ENV VAR
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"unset")==0){
             if(CurrentCommand._simpleCommands[i]._arguments[1] != NULL)
                     unsetenv(CurrentCommand._simpleCommands[i]._arguments[1]);
-        }
-        else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"history")==0){
-                    history();
-                    command_to_be_pushed=GenerateStackElem();
-                    command_to_be_pushed.pid=getpid();
-                    if(push(command_to_be_pushed)!=1)printf("could not push\n");
-                }
+        }        
         else{
             ret = fork();
             if (ret == 0) { 
