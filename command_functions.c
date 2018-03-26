@@ -29,15 +29,24 @@ int InsertSimpleCommand(struct SimpleCommand simpleCommand){
 
 void execute(){
     int ret; 
+    struct stack_elem command_to_be_pushed;
     for (int i = 0; i <CurrentCommand._numberOfSimpleCommands; i++ ){
         if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"cd")==0){
                 //printf("\ncaling cd");
                 cd(CurrentCommand._simpleCommands[i]);
-
+                command_to_be_pushed=GenerateStackElem();
+                command_to_be_pushed.pid=getpid();
+                if(push(command_to_be_pushed)!=1)printf("could not push\n");
                 //printf("\nback from cd");
         }
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"exit")==0){
                     quit();
+                }
+        else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"history")==0){
+                    history();
+                    command_to_be_pushed=GenerateStackElem();
+                    command_to_be_pushed.pid=getpid();
+                    if(push(command_to_be_pushed)!=1)printf("could not push\n");
                 }
         else{
             ret = fork();
@@ -52,7 +61,13 @@ void execute(){
                 perror("fork");
                 return;
             }
-
+            if(i==0){
+                //printf("first simple command (take pid)\n");
+                command_to_be_pushed=GenerateStackElem();
+                command_to_be_pushed.pid=ret;
+                if(push(command_to_be_pushed)!=1)printf("could not push\n");
+            }
+            //ret value in parent is pid of child
         }
         
         // Parent shell continue
@@ -86,25 +101,50 @@ void quit(){
 
 }
 
-char * RecreateCommand(){
-    char * command=malloc(sizeof(char)*MAX_CHAR_SIZE_OF_COMMAND);
+void history(){
+    displayStack();
+}
+
+char * RecreateCommand(char * command){
+    //char * command=malloc(sizeof(char)*MAX_CHAR_SIZE_OF_COMMAND);
+    //char command[MAX_CHAR_SIZE_OF_COMMAND];
+    strcpy(command,"");
     for(int i=0;i<CurrentCommand._numberOfSimpleCommands;i++){
         if(i>0 && i<CurrentCommand._numberOfSimpleCommands-1){
              strcat(command," | ");
         }
-        char * simpleCommand=malloc(sizeof(char)*MAX_CHAR_SIZE_OF_SIMPLECOMMAND);
+       // char * simpleCommand=malloc(sizeof(char)*MAX_CHAR_SIZE_OF_SIMPLECOMMAND);
         struct SimpleCommand SC=CurrentCommand._simpleCommands[i];
         for(int j=0;j<SC._numberOfArguments-1;j++){
-            strcat(simpleCommand,SC._arguments[j]);
-            strcat(simpleCommand," ");
+            //printf("\targ %d %s\n",j,SC._arguments[j]);
+            strcat(command,SC._arguments[j]);
+            strcat(command," ");
+          //  printf("\tcommand at %d %s\n",j,command);
         }
-        //printf("simpleCommand %s\n",simpleCommand);
-        strcat(command,simpleCommand);
+       
+
        
     }
-
-
+    command[strlen(command)]='\0';
+   // printf("Command in recreate %s\n",command);
     return command;
+}
+
+struct stack_elem GenerateStackElem(){
+    struct stack_elem SE;
+    //get command
+    SE.command=malloc(sizeof(char)*MAX_CHAR_SIZE_OF_COMMAND);
+    SE.command=strdup(RecreateCommand(SE.command));
+    //printf("command %s\n",SE.command);
+    time_t mytime;  
+
+    mytime = time(NULL);
+    SE.time_str=malloc(sizeof(char)*50);
+    SE.time_str = strdup(ctime(&mytime));
+    SE.time_str[strlen(SE.time_str)-1] = '\0';
+    //printf("Current Time : %s\n", SE.time_str);
+    //printf ( "Current local time and date: %s", asctime (timeinfo) );
+    return SE;
 }
 
 void DisplayCommand(){

@@ -1,4 +1,4 @@
 void StackInit();
-int push(char * elem);
-int pop(char ** elem);
+int push(struct stack_elem);
+int pop(struct stack_elem * elem);
 void displayStack();

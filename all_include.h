@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
+#include <time.h>
+
 
 #include "simple_command_functions.h"
 #include "command_functions.h"
@@ -17,17 +19,25 @@
 #define MAX_CHAR_SIZE_OF_SIMPLECOMMAND 10
 
 
-#define STACK_SIZE 50 //max history allows up to 50 commands
+#define STACK_SIZE 25 //max history allows up to 50 commands
 #define STACK_ELEM_SIZE 100 //size of each elem in the stack
 
 
 #define PROMPT_SIZE 100
 
 
+
 int Top;
 
-char ** stack;
-char * command_to_be_pushed;
+int HistoryPointer;
+
+struct stack_elem{
+        char * command;
+        int pid;
+        char * time_str;
+};
+
+struct stack_elem stack[STACK_SIZE];
  
 // Describes a simple command and arguments 
 struct SimpleCommand { 
