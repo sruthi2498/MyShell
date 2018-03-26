@@ -19,3 +19,8 @@ void DisplayCommand();
 char * RecreateCommand();
 
 void cd(struct  SimpleCommand SC);
+
+int splitEnv(char *argVal, char **name, char **value);
+void myPrintEnv();
+
+	extern char **environ;

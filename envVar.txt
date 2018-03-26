@@ -1,0 +1,6 @@
+unset newvar
+
+printenv
+env	
+
+export newVar=path (no spaces)
