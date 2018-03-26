@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.0.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.0.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -68,10 +68,11 @@
 	#include <stdio.h>
 	#include "all_include.h"
 	void yyerror(const char *);
+
 	int yylex();
 	extern char yytext[];
 
-#line 75 "y.tab.c" /* yacc.c:339  */
+#line 76 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -130,17 +131,15 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
+typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 10 "shell.y" /* yacc.c:355  */
+#line 11 "shell.y" /* yacc.c:355  */
 
 	char *string_val;
 
-#line 141 "y.tab.c" /* yacc.c:355  */
+#line 142 "y.tab.c" /* yacc.c:355  */
 };
-
-typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -154,7 +153,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 158 "y.tab.c" /* yacc.c:358  */
+#line 157 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -452,7 +451,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    19,    19,    21,    26,    28,    29,    46,    49,    58
+       0,    20,    20,    22,    27,    29,    30,    46,    49,    58
+
 };
 #endif
 
@@ -1225,11 +1225,11 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 21 "shell.y" /* yacc.c:1646  */
+#line 22 "shell.y" /* yacc.c:1646  */
     {
 								printf("valid %s\n",yytext);
 								}
-#line 1233 "y.tab.c" /* yacc.c:1646  */
+#line 1232 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
@@ -1239,21 +1239,23 @@ yyreduce:
     break;
 
   case 6:
-#line 29 "shell.y" /* yacc.c:1646  */
+#line 30 "shell.y" /* yacc.c:1646  */
     {
 											//printf("command_line -> arg_list, Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
-											 // DisplayCommand();
+											// DisplayCommand();
+											 command_to_be_pushed=RecreateCommand();
+											 printf("\ncommand %s\n",command_to_be_pushed);
+											 if(push(command_to_be_pushed)!=1)printf("could not push\n");
 
-
-											 
 											// push(command_to_be_pushed);
 											//displayStack();
 											execute();
 											prompt();
 											//YYACCEPT;
 											}
+
 #line 1258 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1262,6 +1264,7 @@ yyreduce:
     {
 												//printf("arg_list->arg arg_list, pushing arg %s\n", $1	); 
 												Insert_parsed_arg((yyvsp[-1].string_val));}
+
 #line 1266 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1274,11 +1277,13 @@ yyreduce:
 
 		 									Init_parsed_args();
 		 									Insert_parsed_arg((yyvsp[0].string_val));}
+#line 1270 "y.tab.c" /* yacc.c:1646  */
+    break;
+
 #line 1278 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1282 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

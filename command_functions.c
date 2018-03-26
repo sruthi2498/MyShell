@@ -48,13 +48,12 @@ void execute(){
                 //printf("\nback from cd");
         }
         //HISTORY
-
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"history")==0){
-                    history();
-                    command_to_be_pushed=GenerateStackElem();
-                    command_to_be_pushed.pid=getpid();
-                    if(push(command_to_be_pushed)!=1)printf("could not push\n");
-                }
+              history();
+              command_to_be_pushed=GenerateStackElem();
+              command_to_be_pushed.pid=getpid();
+              if(push(command_to_be_pushed)!=1)printf("could not push\n");
+          }
         //EDITOR
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"editor")==0){
                     
@@ -66,13 +65,36 @@ void execute(){
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"exit")==0){
                     quit();
                 }
+        //SET ENV VAR
+        else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"export")==0){   
+            if(CurrentCommand._simpleCommands[i]._numberOfArguments == 3){
+                char *name = malloc(sizeof(char)*50);
+                char *value = malloc(sizeof(char)*75);
+                if(splitEnv(CurrentCommand._simpleCommands[i]._arguments[1], &name, &value)){
+                    setenv(name, value, 1);
+                }
+            }
+            else{
+                printf("Wrong number of arguments to set environment variable. Expects input to be in the form - export newvar='path/to/file'  ");
+            }
+        }
+        //PRINT ENV VAR
+        else if( (strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"printenv")==0) ||
+                    (strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"env")==0)){
+                myPrintEnv();
+        }
+       //UNSET ENV VAR
+        else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"unset")==0){
+            if(CurrentCommand._simpleCommands[i]._arguments[1] != NULL)
+                    unsetenv(CurrentCommand._simpleCommands[i]._arguments[1]);
+        }        
         else{
             ret = fork();
             if (ret == 0) { 
                 execvp(CurrentCommand._simpleCommands[i]._arguments[0],CurrentCommand._simpleCommands[i]._arguments);
                     perror("execvp");
                 
-                
+              
                 _exit(1);
             }
             else if(ret < 0){
@@ -139,9 +161,7 @@ char * RecreateCommand(char * command){
             strcat(command," ");
           //  printf("\tcommand at %d %s\n",j,command);
         }
-       
-
-       
+        //printf("simpleCommand %s\n",simpleCommand);       
     }
     command[strlen(command)]='\0';
    // printf("Command in recreate %s\n",command);
@@ -190,3 +210,26 @@ void DisplayCommand(){
     printf("                         background : %d\n",CurrentCommand._background); 
 }
 
+//Call setenv function in c with no arguments to print all environment variables
+void myPrintEnv(){
+    char **var = environ;
+    while(*var != NULL){
+        printf("%s\n", *var);
+        *var++;
+    }
+}
+
+int splitEnv(char *argVal, char **name, char **value){
+
+    char *token;
+    char *str;
+    int i;
+    str = strdup(argVal);
+
+    /* get the first token */
+    *name = strtok(str, "=");
+    *value = strtok(NULL, "=");
+    printf("Name : %s Value : %s \n", *name, *value);
+    return 1;
+
+}
