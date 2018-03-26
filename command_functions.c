@@ -229,7 +229,7 @@ int splitEnv(char *argVal, char **name, char **value){
     /* get the first token */
     *name = strtok(str, "=");
     *value = strtok(NULL, "=");
-    printf("Name : %s Value : %s \n", *name, *value);
+   // printf("Name : %s Value : %s \n", *name, *value);
     return 1;
 
 }
