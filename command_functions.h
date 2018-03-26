@@ -13,10 +13,13 @@ void execute();
 void clear();
 
 void quit();
+void history();
 
 void DisplayCommand();
 
-char * RecreateCommand();
+char * RecreateCommand(char * command);
+struct stack_elem GenerateStackElem();
+
 
 void cd(struct  SimpleCommand SC);
 

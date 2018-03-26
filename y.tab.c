@@ -452,6 +452,7 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    20,    20,    22,    27,    29,    30,    46,    49,    58
+
 };
 #endif
 
@@ -1231,6 +1232,12 @@ yyreduce:
 #line 1232 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 5:
+#line 28 "shell.y" /* yacc.c:1646  */
+    {}
+#line 1239 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 6:
 #line 30 "shell.y" /* yacc.c:1646  */
     {
@@ -1241,12 +1248,15 @@ yyreduce:
 											 command_to_be_pushed=RecreateCommand();
 											 printf("\ncommand %s\n",command_to_be_pushed);
 											 if(push(command_to_be_pushed)!=1)printf("could not push\n");
+
 											// push(command_to_be_pushed);
 											//displayStack();
 											execute();
 											prompt();
+											//YYACCEPT;
 											}
-#line 1250 "y.tab.c" /* yacc.c:1646  */
+
+#line 1258 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
@@ -1254,7 +1264,8 @@ yyreduce:
     {
 												//printf("arg_list->arg arg_list, pushing arg %s\n", $1	); 
 												Insert_parsed_arg((yyvsp[-1].string_val));}
-#line 1258 "y.tab.c" /* yacc.c:1646  */
+
+#line 1266 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
@@ -1269,8 +1280,10 @@ yyreduce:
 #line 1270 "y.tab.c" /* yacc.c:1646  */
     break;
 
+#line 1278 "y.tab.c" /* yacc.c:1646  */
+    break;
 
-#line 1274 "y.tab.c" /* yacc.c:1646  */
+
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

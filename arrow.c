@@ -21,11 +21,11 @@ int pressed_arrow(){
 				c = getchar();
 				tcsetattr(STDIN_FILENO, TCSANOW, &oldTermios);
 				if(c==65){
-					//printf("up");
+					printf("up");
 					return 1;
 				}
 				else if(c==66){
-					//printf("down");
+					printf("down");
 					return 2;
 				}
 				else{
@@ -48,5 +48,15 @@ int pressed_arrow(){
 			ungetc(c, stdin);
 			return 0;
 	}
+	
 	return 0;	
 }	
+
+
+// int main(){
+// 	int a;
+// 	a=pressed_arrow();
+// 	while(a!=-1){
+// 		a=pressed_arrow();	
+// 	}
+// }
