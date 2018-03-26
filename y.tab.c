@@ -452,7 +452,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    19,    19,    21,    26,    28,    29,    45,    48,    57
+       0,    19,    19,    21,    26,    28,    29,    46,    49,    58
 };
 #endif
 
@@ -1232,6 +1232,12 @@ yyreduce:
 #line 1233 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 5:
+#line 28 "shell.y" /* yacc.c:1646  */
+    {}
+#line 1239 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 6:
 #line 29 "shell.y" /* yacc.c:1646  */
     {
@@ -1239,27 +1245,28 @@ yyreduce:
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
 											 // DisplayCommand();
-											 command_to_be_pushed=RecreateCommand();
-											 printf("\ncommand %s\n",command_to_be_pushed);
-											 if(push(command_to_be_pushed)!=1)printf("could not push\n");
+
+
+											 
 											// push(command_to_be_pushed);
-											displayStack();
+											//displayStack();
 											execute();
 											prompt();
+											//YYACCEPT;
 											}
-#line 1251 "y.tab.c" /* yacc.c:1646  */
+#line 1258 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 45 "shell.y" /* yacc.c:1646  */
+#line 46 "shell.y" /* yacc.c:1646  */
     {
 												//printf("arg_list->arg arg_list, pushing arg %s\n", $1	); 
 												Insert_parsed_arg((yyvsp[-1].string_val));}
-#line 1259 "y.tab.c" /* yacc.c:1646  */
+#line 1266 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 48 "shell.y" /* yacc.c:1646  */
+#line 49 "shell.y" /* yacc.c:1646  */
     {
 		 									//printf("arg_list gives New command , Pushing arg %s  \n", $1);
 		 									InitSimpleCommand();
@@ -1267,11 +1274,11 @@ yyreduce:
 
 		 									Init_parsed_args();
 		 									Insert_parsed_arg((yyvsp[0].string_val));}
-#line 1271 "y.tab.c" /* yacc.c:1646  */
+#line 1278 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1275 "y.tab.c" /* yacc.c:1646  */
+#line 1282 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1499,7 +1506,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 61 "shell.y" /* yacc.c:1906  */
+#line 62 "shell.y" /* yacc.c:1906  */
 
 void yyerror(const char * p){
 	printf("\nerror : %s\n",p);

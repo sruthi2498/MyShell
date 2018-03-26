@@ -23,21 +23,22 @@ P 	:
 								}
   	; 
 
-command_line	: 
+command_line	: 	
 
-				| arg_list PIPE command_line
+				| arg_list PIPE command_line {}
 				| arg_list  				{
 											//printf("command_line -> arg_list, Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
 											 // DisplayCommand();
-											 command_to_be_pushed=RecreateCommand();
-											 printf("\ncommand %s\n",command_to_be_pushed);
-											 if(push(command_to_be_pushed)!=1)printf("could not push\n");
+
+
+											 
 											// push(command_to_be_pushed);
-											displayStack();
+											//displayStack();
 											execute();
 											prompt();
+											//YYACCEPT;
 											}
 				;
 
