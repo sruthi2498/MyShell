@@ -22,3 +22,8 @@ struct stack_elem GenerateStackElem();
 
 
 void cd(struct  SimpleCommand SC);
+
+int splitEnv(char *argVal, char **name, char **value);
+void myPrintEnv();
+
+	extern char **environ;
