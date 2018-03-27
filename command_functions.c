@@ -43,7 +43,7 @@ void execute(){
         //CD
         if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"cd")==0){
                 //printf("\ncaling cd");
-                cd(CurrentCommand._simpleCommands[i]);
+                cd(CurrentCommand._simpleCommands[i]); 
                 command_to_be_pushed=GenerateStackElem();
                 command_to_be_pushed.pid=getpid();
                 if(push(command_to_be_pushed)!=1)printf("could not push\n");
@@ -58,7 +58,13 @@ void execute(){
           }
         //EDITOR
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"editor")==0){
-                    
+                    if(CurrentCommand._simpleCommands[i]._numberOfArguments <3){
+                        printf("Expected file name not found\n");
+                        return;
+                    }
+                    char * filename=CurrentCommand._simpleCommands[i]._arguments[1];
+                    printf("file : %s\n",filename);
+                    int return_val=editor(filename);
                     command_to_be_pushed=GenerateStackElem();
                     command_to_be_pushed.pid=getpid();
                     if(push(command_to_be_pushed)!=1)printf("could not push\n");
@@ -96,7 +102,7 @@ void execute(){
                 execvp(CurrentCommand._simpleCommands[i]._arguments[0],CurrentCommand._simpleCommands[i]._arguments);
                     perror("execvp");
                 
-              
+                prompt();              
                 _exit(1);
             }
             else if(ret < 0){
