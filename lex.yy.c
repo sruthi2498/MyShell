@@ -743,8 +743,8 @@ case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
 #line 11 "shell.l"
-{	InitCommand();
-			prompt();
+{	//InitCommand();
+			//prompt();
 			return NEWLINE; }
 	YY_BREAK
 case 2:

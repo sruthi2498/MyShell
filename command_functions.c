@@ -1,9 +1,10 @@
 #include "all_include.h"
 
 int InitCommand(){
+    sc = 0;
 	CurrentCommand._numberOfAvailableSimpleCommands=MAX_NUMBER_OF_SIMPLE_COMMANDS;
     CurrentCommand._numberOfSimpleCommands=0;
-
+    printf("Init commanding %d\n", ++comm);
     return 1;
 }
 
@@ -30,6 +31,7 @@ int InsertSimpleCommand(struct SimpleCommand simpleCommand){
 void execute(){
     int ret; 
     struct stack_elem command_to_be_pushed;
+    printf("\n in execute - number of simpleCommands : %d \n",CurrentCommand._numberOfSimpleCommands);
     for (int i = 0; i <CurrentCommand._numberOfSimpleCommands; i++ ){
         /*
         current_command=CurrentCommand._simpleCommands[i]._arguments[0]

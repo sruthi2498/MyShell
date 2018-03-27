@@ -17,61 +17,58 @@
 
 %%
 
-command_list : 
-			  | command_list command_line
-			 ;					
+command_list :  command_list command_line 
+			 ;					{
+								printf("valid %s\n",yytext);
+								}
 
 command_line: pipe_list NEWLINE 		{
-											/* Entire command read, Execute and Wait for next Command */
 											printf("\nExecuting\n\n");
 											execute();
-											InitCommand();
-											prompt();
 										}
-			| NEWLINE  					{
-											prompt();
-										}	
-			;
+			| NEWLINE  
  
 
 pipe_list: pipe_list PIPE cmd_and_args  {
-											/* Send simple command to Cmd Table and wait for more commands */
-											 printf("pipe_list -> PIPE ,  Pushing all args\n"); 
+											 printf("command_line -> arg_list, Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
 											 c++;
 											 printf("c incremented in yacc \n%d\n",c);
-											 //DisplayCommand();
-		
+											 DisplayCommand();
 											
+											//displayStack();
+											//printf("\nExecuting\n\n");
+											//execute();
+											//prompt();
+											//YYACCEPT;
 											}
 		 | cmd_and_args 				{
-											 printf("the first cmd, Pushing all args\n"); 
+											 printf("command_line -> arg_list, Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
-											 //c++;
-											 //printf("c incremented in yacc \n%d\n",c);
-											 //DisplayCommand();
+											 c++;
+											 printf("c incremented in yacc \n%d\n",c);
+											 DisplayCommand();
 										}
 		 ;
 
 cmd_and_args: WORD arg_list 			{
-												printf("\n arg_list gives New command , Pushing arg WORD %s  \n", $1);
-
-			 									InitSimpleCommand();
-
-												
+												printf("\narg_list->arg arg_list, pushing cmd WORD %s\n", $1); 
 												Insert_parsed_arg($1);
 										}
 			;
 
 arg_list: arg_list WORD 				{
-		 									printf("\n arg_list encounters argument, push arg WORD %s", $2);
+		 									printf("\na rg_list gives New command , Pushing arg WORD %s  \n", $2);
+
+		 									InitSimpleCommand();
+
+
+		 									Init_parsed_args();
 		 									Insert_parsed_arg($2);
 		 								}
-		|								{
-											Init_parsed_args();
-										}
+		|
 		;
  
 

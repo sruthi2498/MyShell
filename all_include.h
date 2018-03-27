@@ -25,6 +25,8 @@
 
 #define PROMPT_SIZE 100
 
+int sc;
+int comm;
 
 
 int Top;
