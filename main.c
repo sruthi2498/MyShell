@@ -4,7 +4,7 @@
 int main(){
 	StackInit();
 	InitCommand();
-
+	printf("Initialized from main.c\n\n");
 	
 	Prompt=malloc(sizeof(char)*PROMPT_SIZE);
 	strcpy(Prompt,"hash:~");

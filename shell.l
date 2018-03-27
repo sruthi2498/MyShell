@@ -8,8 +8,8 @@
 	void yyerror(const char *);
 %}
 %%
-\n 		{	InitCommand();
-			prompt();
+\n		{	//InitCommand();
+			//prompt();
 			return NEWLINE; }
 [ \t] 	{ /* Discard spaces and tabs */}
 ">" 	{return GREAT;}
