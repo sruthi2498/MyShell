@@ -1,5 +1,4 @@
 %{
-
 	#include <stdio.h>
 	#include "all_include.h"
 	void yyerror(const char *);

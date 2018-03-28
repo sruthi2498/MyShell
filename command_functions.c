@@ -63,7 +63,7 @@ void execute(){
                         return;
                     }
                     char * filename=CurrentCommand._simpleCommands[i]._arguments[1];
-                    printf("file : %s\n",filename);
+                    //printf("file : %s\n",filename);
                     int return_val=editor(filename);
                     command_to_be_pushed=GenerateStackElem();
                     command_to_be_pushed.pid=getpid();
