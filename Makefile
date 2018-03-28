@@ -20,4 +20,4 @@ main : main.c all_include.h
 	gcc -g $(CFLAGS) lex.yy.c y.tab.c -Wall main.c arrow.o stack.o edit.o simple_command_functions.o command_functions.o helper_to_parser.o -ll -w -o main 
 binaries= arrow stack edit simple_command command main
 clean :
-	rm -f $(binaries) *.o
+	rm -f $(binaries) *.o 

@@ -6,3 +6,14 @@ okay
 We are adding this to the file
 Includig a new line
 Is this okay?
+A new line
+
+
+
+
+A new line is added here
+
+And maybe
+
+Here also
+

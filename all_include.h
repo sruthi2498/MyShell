@@ -35,8 +35,11 @@ int Top;
 int HistoryPointer;
 
 struct stack_elem{
+        //actual command
         char * command;
+        //pid for the process
         int pid;
+        //time at which command was run
         char * time_str;
 };
 

@@ -33,9 +33,9 @@ command_line	:
 											 InsertSimpleCommand(CurrentSimpleCommand);
 
 											// DisplayCommand();
-											 command_to_be_pushed=RecreateCommand();
-											 printf("\ncommand %s\n",command_to_be_pushed);
-											 if(push(command_to_be_pushed)!=1)printf("could not push\n");
+											// command_to_be_pushed=RecreateCommand();
+											 //printf("\ncommand %s\n",command_to_be_pushed);
+											 //if(push(command_to_be_pushed)!=1)printf("could not push\n");
 
 											//displayStack();
 											execute();

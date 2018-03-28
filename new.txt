@@ -1,0 +1,4 @@
+A file is being added
+So we should print 
+out the line
+editing
