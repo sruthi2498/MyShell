@@ -1,9 +1,8 @@
 %{
-
 	#include <stdio.h>
 	#include "all_include.h"
 	void yyerror(const char *);
-
+	int c = 0;
 	int yylex();
 	extern char yytext[];
 %}
@@ -14,52 +13,66 @@
 
 %token NEWLINE GREAT LESS GREATGREAT GREATAMP PIPE AMP NOTOKEN
 %token <string_val> WORD 
-%type <string_val> arg 
 
 %%
-P 	:                          
 
-	|	command_line NEWLINE P {
-								printf("valid %s\n",yytext);
-								}
-  	; 
+command_list : 
+			  | command_list command_line
+			 ;					
 
-command_line	: 	
+command_line: pipe_list NEWLINE 		{
+											/* Entire command read, Execute and Wait for next Command */
+											printf("\nExecuting\n\n");
+											execute();
+											InitCommand();
+											prompt();
+										}
+			| NEWLINE  					{
+											prompt();
+										}	
+			;
+ 
 
-				| arg_list PIPE command_line {}
-				| arg_list  				{
-											//printf("command_line -> arg_list, Pushing all args\n"); 
+pipe_list: pipe_list PIPE cmd_and_args  {
+											/* Send simple command to Cmd Table and wait for more commands */
+											 printf("pipe_list -> PIPE ,  Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
-
-											// DisplayCommand();
-											// command_to_be_pushed=RecreateCommand();
-											 //printf("\ncommand %s\n",command_to_be_pushed);
-											 //if(push(command_to_be_pushed)!=1)printf("could not push\n");
-
-											//displayStack();
-											execute();
-											prompt();
-											//YYACCEPT;
+											 c++;
+											 printf("c incremented in yacc \n%d\n",c);
+											 //DisplayCommand();
+		
+											
 											}
-				;
+		 | cmd_and_args 				{
+											 printf("the first cmd, Pushing all args\n"); 
+											 Send_all_args();
+											 InsertSimpleCommand(CurrentSimpleCommand);
+											 //c++;
+											 //printf("c incremented in yacc \n%d\n",c);
+											 //DisplayCommand();
+										}
+		 ;
 
+cmd_and_args: WORD arg_list 			{
+												printf("\n arg_list gives New command , Pushing arg WORD %s  \n", $1);
 
-arg_list 		: arg arg_list 				{
-												//printf("arg_list->arg arg_list, pushing arg %s\n", $1	); 
-												Insert_parsed_arg($1);}
-		 		| arg 						{
-		 									//printf("arg_list gives New command , Pushing arg %s  \n", $1);
-		 									InitSimpleCommand();
+			 									InitSimpleCommand();
 
+												
+												Insert_parsed_arg($1);
+										}
+			;
 
-		 									Init_parsed_args();
-		 									Insert_parsed_arg($1);}
-		 		;
-
-arg 		 	: WORD 	
-				;					
-
+arg_list: arg_list WORD 				{
+		 									printf("\n arg_list encounters argument, push arg WORD %s", $2);
+		 									Insert_parsed_arg($2);
+		 								}
+		|								{
+											Init_parsed_args();
+										}
+		;
+ 
 
 %%
 void yyerror(const char * p){
