@@ -21,9 +21,10 @@ command_list :
 			  | command_list command_line
 			 ;					
 
-command_line: pipe_list NEWLINE 		{
+command_line: pipe_list io_modifier_list NEWLINE 		{
 											/* Entire command read, Execute and Wait for next Command */
 											printf("\nExecuting\n\n");
+											DisplayCommand();
 											execute();
 											InitCommand();
 											prompt();
@@ -33,6 +34,16 @@ command_line: pipe_list NEWLINE 		{
 										}	
 			;
  
+io_modifier_list: io_modifier_list io_modifier 
+				| 
+				; 
+
+io_modifier : GREATGREAT WORD 
+		 	| GREAT WORD 
+		 	| GREATGREAT AMP WORD 
+		 	| GREATAMP WORD 
+		 	| LESS WORD
+		 	;
 
 pipe_list: pipe_list PIPE cmd_and_args  {
 											/* Send simple command to Cmd Table and wait for more commands */
