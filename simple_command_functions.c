@@ -7,28 +7,31 @@ void InitSimpleCommand(){
     
     CurrentSimpleCommand._arguments=malloc(sizeof(char *)*CurrentSimpleCommand._numberOfAvailableArguments);
 
+    //Allocates space for 10 possible arguments
     for(int i=0;i<CurrentSimpleCommand._numberOfAvailableArguments;i++){
     	 CurrentSimpleCommand._arguments[i]=malloc(sizeof(char)*MAX_LEN_OF_ARG);
     }
 
 
-    printf("InitSimpleCommand over\n");
-
+    //printf("InitSimpleCommand over\n");
 
 }
 
 int insertArgument( char * argument ){
 
-	printf("Inserting arg %s\n",argument);
+
+	//printf("Inserting arg %s index %d\n",argument,CurrentSimpleCommand._numberOfArguments);
+
+
 	if( CurrentSimpleCommand._numberOfArguments >= CurrentSimpleCommand._numberOfAvailableArguments){
 		printf("Max number of arguments reached, insertArgument FAILED\n");
 		return 0;
 	}
 
 	CurrentSimpleCommand._arguments[CurrentSimpleCommand._numberOfArguments]=argument;
-	
+	//printf("Inserted %s\n",CurrentSimpleCommand._arguments[CurrentSimpleCommand._numberOfArguments]);
 	CurrentSimpleCommand._numberOfArguments++;
-	printf("Inserted %s\n",CurrentSimpleCommand._arguments[CurrentSimpleCommand._numberOfArguments]);
+	
 	return 1;
 }
 

@@ -1,0 +1,1 @@
+int editor(char * filename);

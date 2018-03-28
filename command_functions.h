@@ -12,5 +12,18 @@ void print();
 void execute();
 void clear();
 
+void quit();
+void history();
+
 void DisplayCommand();
-void clear();
+
+char * RecreateCommand(char * command);
+struct stack_elem GenerateStackElem();
+
+
+void cd(struct  SimpleCommand SC);
+
+int splitEnv(char *argVal, char **name, char **value);
+void myPrintEnv();
+
+	extern char **environ;

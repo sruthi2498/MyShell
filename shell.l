@@ -3,26 +3,26 @@
 */
 %{
 	#include <string.h>
+	#include "all_include.h"
 	#include "y.tab.h"
 	void yyerror(const char *);
 %}
 %%
-\n 		{return NEWLINE; }
+\n 		{	InitCommand();
+			prompt();
+			return NEWLINE; }
 [ \t] 	{ /* Discard spaces and tabs */}
 ">" 	{return GREAT;}
 "<" 	{return LESS;}
 ">>" 	{return GREATGREAT;}
-">&" 	{return GREATAMPERSAND;}
-“|” 	{return PIPE;}
-“&” 	{return AMPERSAND;}
+">&" 	{return GREATAMP;}
+"|" 	{return PIPE;}
+"&" 	{return AMP;}
 [^ \t\n][^ \t\n]* {
 		/* Assume that file names have only alpha chars */
 		yylval.string_val = strdup(yytext);
-		return WORD;
-		}
-/* Add more tokens here */
-
-. 		{ /* Invalid character in input */
+		return WORD;}
+. 		{ 
 		return NOTOKEN;
 		}
 %%

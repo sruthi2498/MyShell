@@ -1,15 +1,49 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <termios.h>
+#include <unistd.h>
+#include <time.h>
+#include <fcntl.h>
+
 
 #include "simple_command_functions.h"
 #include "command_functions.h"
+#include "helper_to_parser.h"
+#include "arrow.h"
+#include "stack.h"
+#include "edit.h"
 
 #define MAX_NUMBER_OF_SIMPLE_COMMANDS 10
 #define MAX_NUMBER_OF_ARGUMENTS 10
 #define MAX_LEN_OF_ARG 20
-#define MAX_NUMBER_OF_SIMPLE_COMMANDS 100
+#define MAX_CHAR_SIZE_OF_COMMAND 100
+#define MAX_CHAR_SIZE_OF_SIMPLECOMMAND 10
+#define WRITE_SIZE 250
 
+
+#define STACK_SIZE 25 //max history allows up to 50 commands
+#define STACK_ELEM_SIZE 100 //size of each elem in the stack
+
+
+#define PROMPT_SIZE 100
+
+
+
+int Top;
+
+int HistoryPointer;
+
+struct stack_elem{
+        //actual command
+        char * command;
+        //pid for the process
+        int pid;
+        //time at which command was run
+        char * time_str;
+};
+
+struct stack_elem stack[STACK_SIZE];
  
 // Describes a simple command and arguments 
 struct SimpleCommand { 
@@ -44,3 +78,8 @@ struct Command {
 struct Command CurrentCommand;
 struct SimpleCommand CurrentSimpleCommand;
 
+char** parsed_arg;
+char** parsed_final_arg;
+int count_arg;
+
+char * Prompt;
