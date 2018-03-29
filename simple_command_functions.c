@@ -3,7 +3,7 @@
 void InitSimpleCommand(){
 
 	sc++;
-	printf("Simple command called %d times\n", sc);
+	//printf("Simple command called %d times\n", sc);
 	CurrentSimpleCommand._numberOfAvailableArguments=MAX_NUMBER_OF_ARGUMENTS; 
     CurrentSimpleCommand._numberOfArguments=0; 
     
