@@ -97,7 +97,7 @@ void execute(){
         strcpy(current_command,CurrentCommand._simpleCommands[i]._arguments[0]);
         //printf("current command %s\n",current_command);
         struct Aliastruct AS = getAlias(current_command);
-        printf("command returned %s\n",AS.command);
+
         if(strcmp(AS.command," ")!=0)
         {
             //char * command_arg, *command_arg1;
@@ -105,8 +105,8 @@ void execute(){
             CurrentCommand._simpleCommands[i]._arguments[1] = strtok(NULL," ");
 
         }
-
-
+        //Add last argument as (null)
+        CurrentCommand._simpleCommands[i]._arguments[CurrentCommand._simpleCommands[i]._numberOfArguments] = NULL;
 
         if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"alias")==0){
             char *alias,*command;
