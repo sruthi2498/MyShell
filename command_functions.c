@@ -4,7 +4,14 @@ int InitCommand(){
     sc = 0;
 	CurrentCommand._numberOfAvailableSimpleCommands=MAX_NUMBER_OF_SIMPLE_COMMANDS;
     CurrentCommand._numberOfSimpleCommands=0;
-    printf("Init commanding %d\n", ++comm);
+
+    CurrentCommand._outFile=NULL; 
+    CurrentCommand._inputFile=NULL; 
+    CurrentCommand._errFile=NULL; 
+    CurrentCommand.flag_for_outfile=0;
+    CurrentCommand._background=0; 
+
+   // printf("Init commanding %d\n", ++comm);
     return 1;
 }
 
@@ -29,19 +36,121 @@ int InsertSimpleCommand(struct SimpleCommand simpleCommand){
 
 
 void execute(){
-    int ret; 
+
+    //save in/out
+    int tmpin = dup(0);
+    int tmpout = dup(1);
+   // printf("tmpin %d tmpout %d\n",tmpin,tmpout);
+
+    //InFile Saved in command structure
+    //Set fdin
+    int fdin;
+    if(CurrentCommand._inputFile){
+        if((fdin = open(CurrentCommand._inputFile, O_RDONLY))<0)
+                    perror("open");
+        else 
+            printf("opened infile %s\n",CurrentCommand._inputFile);
+    }
+    else{
+        //use default input
+        fdin=dup(tmpin);
+    }
+   // printf("fdin %d\n",fdin);
+    int ret;
+    int fdout;
+
     struct stack_elem command_to_be_pushed;
-    printf("\n in execute - number of simpleCommands : %d \n",CurrentCommand._numberOfSimpleCommands);
+   // printf("\n in execute - number of simpleCommands : %d \n",CurrentCommand._numberOfSimpleCommands);
     for (int i = 0; i <CurrentCommand._numberOfSimpleCommands; i++ ){
-        /*
-        current_command=CurrentCommand._simpleCommands[i]._arguments[0]
-        alias_struct=get_alias(cureent_command)
-        if True:
-            current_command=alias_struct.command
-        if False:
-        */
+        
+        //stdin redirected to fdin
+        dup2(fdin,0);
+        close(fdin);
+
+        if(i == (CurrentCommand._numberOfSimpleCommands - 1)){
+            //Last simple CurrentCommand
+            if(CurrentCommand._outFile){
+                if((fdout = open(CurrentCommand._outFile, O_RDWR | O_CREAT, S_IRWXU|S_IRWXG |S_IRWXO ))<0)
+                    perror("open");
+                else 
+                  printf("opened outfile %s\n",CurrentCommand._outFile);
+            }
+            else{
+                fdout = dup(tmpout);
+            }
+            //printf("fdout %d\n",fdout);
+        }
+        else{
+            //not last simple CurrentCommand
+            //Create a pipe
+            int fdpipe[2];
+            pipe(fdpipe);
+            fdout=fdpipe[1];
+            fdin=fdpipe[0];
+        }
+        //redirect output
+        dup2(fdout,1);
+        close(fdout);
+
+        //ALIAS
+        char * current_command=malloc(sizeof(char) * (20) );
+        strcpy(current_command,CurrentCommand._simpleCommands[i]._arguments[0]);
+        //printf("current command %s\n",current_command);
+        struct Aliastruct AS = getAlias(current_command);
+        printf("command returned %s\n",AS.command);
+        if(strcmp(AS.command," ")!=0)
+        {
+            //char * command_arg, *command_arg1;
+            CurrentCommand._simpleCommands[i]._arguments[0] = strtok(AS.command," ");
+            CurrentCommand._simpleCommands[i]._arguments[1] = strtok(NULL," ");
+
+        }
+
+
+
+        if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"alias")==0){
+            char *alias,*command;
+            DisplayCommand();
+            int number_of_args=CurrentCommand._simpleCommands[i]._numberOfArguments;
+
+            if(number_of_args<5){
+                printf("Invalid alias, Expected more number of arguments\n");
+                return;
+            }
+            // strcpy(current_command,CurrentCommand._simpleCommands[i]._arguments[1]);
+            
+            // alias = strtok(current_command, "=");
+            // printf("alias %s\n",alias);
+            // command = strtok(NULL, "=");
+            
+            //second last argument : aliasname
+            //strcpy(alias,"");
+            alias=CurrentCommand._simpleCommands[i]._arguments[number_of_args-2];
+            command=malloc(sizeof(char)*20);
+            strcpy(command,"");
+            //third last argument : "="
+            //fourth last argument : actual command starts
+            int command_start_arg=number_of_args-4;
+            //second argument : last arg in actual command
+            int command_end_arg=1;
+
+            int j=command_start_arg;
+            while(j>=command_end_arg){
+               // printf("j %d\n",j);
+                //printf("arg : %s\n",CurrentCommand._simpleCommands[i]._arguments[j]);
+                strcat(command,CurrentCommand._simpleCommands[i]._arguments[j]);
+                strcat(command," ");
+                j--;
+
+            }
+            //printf("alias %s command %s\n",alias,command);
+            //alias[strlen(alias)]='\0';
+            //command[strlen(command)]='\0';
+            printf("alias %s command %s\n",alias,command);
+            setAlias(alias,command);
+        }
         //CD
-        if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"cd")==0){
+        else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"cd")==0){
                 //printf("\ncaling cd");
                 cd(CurrentCommand._simpleCommands[i]); 
                 command_to_be_pushed=GenerateStackElem();
@@ -102,7 +211,7 @@ void execute(){
                 execvp(CurrentCommand._simpleCommands[i]._arguments[0],CurrentCommand._simpleCommands[i]._arguments);
                     perror("execvp");
                 
-                prompt();              
+                //sprompt();              
                 _exit(1);
             }
             else if(ret < 0){
@@ -122,11 +231,30 @@ void execute(){
     
         
     }// for
-    if (!CurrentCommand._background){
-        // wait for last process
-        waitpid(ret, NULL);
-    } 
+
+    //restore in/out details
+
+    dup2(tmpin,0);
+    dup2(tmpout,1);
+    close(tmpin);
+    close(tmpout);
+
+    if(!CurrentCommand._background){
+        //wait for last CurrentCommand
+        waitpid(ret,NULL);
+    }
 }
+
+
+void setOutFile(char * filename,int flag){
+    CurrentCommand._outFile=filename;
+    CurrentCommand.flag_for_outfile=flag;
+}
+void setInFile(char * filename){
+    //printf("setting input file to %s",filename);
+    CurrentCommand._inputFile=filename;
+}
+
 
 void cd(struct  SimpleCommand SC){
 
@@ -212,7 +340,7 @@ void DisplayCommand(){
         printf("                          ---------------\n");
     }
     
-    printf("                            OutFile : %s\n",CurrentCommand._outFile);
+    printf("                            OutFile : %s (Flag : %d)\n",CurrentCommand._outFile,CurrentCommand.flag_for_outfile);
     printf("                          inputFile : %s\n",CurrentCommand._inputFile);
     printf("                           errFile  : %s\n",CurrentCommand._errFile);
     printf("                         background : %d\n",CurrentCommand._background); 

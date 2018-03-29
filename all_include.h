@@ -5,11 +5,14 @@
 #include <unistd.h>
 #include <time.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 
 #include "simple_command_functions.h"
 #include "command_functions.h"
 #include "helper_to_parser.h"
+#include "alias_functions.h"
 #include "arrow.h"
 #include "stack.h"
 #include "edit.h"
@@ -25,6 +28,7 @@
 #define STACK_SIZE 25 //max history allows up to 50 commands
 #define STACK_ELEM_SIZE 100 //size of each elem in the stack
 
+#define ALIAS_TABLE_SIZE 50
 
 #define PROMPT_SIZE 100
 
@@ -46,6 +50,14 @@ struct stack_elem{
 };
 
 struct stack_elem stack[STACK_SIZE];
+
+struct Aliastruct{
+
+        char * aliasname;
+        char * command;
+}AliasTable[ALIAS_TABLE_SIZE];
+
+int counter;
  
 // Describes a simple command and arguments 
 struct SimpleCommand { 
@@ -73,6 +85,11 @@ struct Command {
         char * _outFile; 
         char * _inputFile; 
         char * _errFile; 
+
+        int flag_for_outfile;
+        // 1 : ls > list : If file exists it'll be replaced.
+        // 2 : ls >> list :If file not exists it'll be created. If it exists, it'll be appended to the end of file. 
+
 
         int _background; 
 }; 

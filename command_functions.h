@@ -26,4 +26,7 @@ void cd(struct  SimpleCommand SC);
 int splitEnv(char *argVal, char **name, char **value);
 void myPrintEnv();
 
-	extern char **environ;
+void setOutFile(char * filename,int flag);
+void setInFile(char * filename);
+
+extern char **environ;

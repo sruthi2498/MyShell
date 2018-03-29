@@ -23,7 +23,7 @@ command_list :
 command_line: pipe_list io_modifier_list NEWLINE 		{
 											/* Entire command read, Execute and Wait for next Command */
 											printf("\nExecuting\n\n");
-											DisplayCommand();
+											//DisplayCommand();
 											execute();
 											InitCommand();
 											prompt();
@@ -37,26 +37,35 @@ io_modifier_list: io_modifier_list io_modifier
 				| 
 				; 
 
-io_modifier : GREATGREAT WORD 
-		 	| GREAT WORD 
-		 	| GREATGREAT AMP WORD 
-		 	| GREATAMP WORD 
-		 	| LESS WORD
+io_modifier : GREATGREAT WORD  {
+		 						setOutFile($2,2);
+		 						}
+		 	| GREAT WORD     {
+		 						setOutFile($2,1);
+		 						}
+		 	| GREATGREAT AMP WORD {
+		 						setOutFile($3,2);
+		 						}
+		 	| GREATAMP WORD {
+		 						setOutFile($2,1);
+		 						}
+		 	| LESS WORD 	{	//set input file
+		 						setInFile($2);}
 		 	;
 
 pipe_list: pipe_list PIPE cmd_and_args  {
 											/* Send simple command to Cmd Table and wait for more commands */
-											 printf("pipe_list -> PIPE ,  Pushing all args\n"); 
+											 //printf("pipe_list -> PIPE ,  Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
 											 c++;
-											 printf("c incremented in yacc \n%d\n",c);
+											 //printf("c incremented in yacc \n%d\n",c);
 											 //DisplayCommand();
 		
 											
 											}
 		 | cmd_and_args 				{
-											 printf("the first cmd, Pushing all args\n"); 
+											 //printf("the first cmd, Pushing all args\n"); 
 											 Send_all_args();
 											 InsertSimpleCommand(CurrentSimpleCommand);
 											 //c++;
@@ -66,7 +75,7 @@ pipe_list: pipe_list PIPE cmd_and_args  {
 		 ;
 
 cmd_and_args: WORD arg_list 			{
-												printf("\n arg_list gives New command , Pushing arg WORD %s  \n", $1);
+												//printf("\n arg_list gives New command , Pushing arg WORD %s  \n", $1);
 
 			 									InitSimpleCommand();
 
