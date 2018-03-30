@@ -33,3 +33,10 @@ void displayStack(){
 		//printf("%d : %s%10s%s%10s%d\n",i,stack[i].command,stack[i].time_str,stack[i].pid);
 	}
 }
+
+void CleanStack(){
+	for(int i=Top-1;i>=0;i--){
+		free(stack[i].command);
+		free(stack[i].time_str);
+	}
+}

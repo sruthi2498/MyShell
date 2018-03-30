@@ -1,2 +1,0 @@
-ooooh
-#include<stdio.h>
