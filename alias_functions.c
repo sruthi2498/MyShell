@@ -56,3 +56,10 @@ struct  Aliastruct AliasInit()
 
 
 }
+
+void CleanUpAliasTable(){
+	for(int i=0;i<counter;i++){
+		free(AliasTable[i].aliasname);
+		free(AliasTable[i].command);
+	}
+}

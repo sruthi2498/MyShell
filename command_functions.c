@@ -97,7 +97,7 @@ void execute(){
         strcpy(current_command,CurrentCommand._simpleCommands[i]._arguments[0]);
         //printf("current command %s\n",current_command);
         struct Aliastruct AS = getAlias(current_command);
-
+       // printf("command returned %s\n",AS.command);
         if(strcmp(AS.command," ")!=0)
         {
             //char * command_arg, *command_arg1;
@@ -279,6 +279,10 @@ void prompt(){
 void quit(){
     printf("\nExit...\n");
     //fflush( stdout );
+    CleanUpAliasTable();
+    //printf("alias table clean\n");
+    CleanStack();
+    //printf("stack cleaned\n");
     exit(0);
 
 }
