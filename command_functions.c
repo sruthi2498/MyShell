@@ -105,8 +105,8 @@ void execute(){
             CurrentCommand._simpleCommands[i]._arguments[1] = strtok(NULL," ");
 
         }
-
-
+        //Add last argument as (null)
+        CurrentCommand._simpleCommands[i]._arguments[CurrentCommand._simpleCommands[i]._numberOfArguments] = NULL;
 
         if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"alias")==0){
             char *alias,*command;
@@ -152,7 +152,8 @@ void execute(){
         //CD
         else if(strcmp(CurrentCommand._simpleCommands[i]._arguments[0],"cd")==0){
                 //printf("\ncaling cd");
-                cd(CurrentCommand._simpleCommands[i]); 
+                cd(CurrentCommand._simpleCommands[i]);
+
                 command_to_be_pushed=GenerateStackElem();
                 command_to_be_pushed.pid=getpid();
                 if(push(command_to_be_pushed)!=1)printf("could not push\n");
@@ -266,7 +267,12 @@ void cd(struct  SimpleCommand SC){
     if(chdir(SC._arguments[1])==-1)printf("Could not cd\n");  
 }
 void prompt(){
-    printf("\n%s",Prompt);
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != NULL);
+       //fprintf(stdout, "Current working dir: %s\n", cwd);
+    else
+       perror("getcwd() error");
+    printf("\n%s%s",Prompt,cwd);
     printf("$");
 }
 
