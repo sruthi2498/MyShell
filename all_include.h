@@ -17,6 +17,7 @@
 #include "stack.h"
 #include "edit.h"
 
+
 #define MAX_NUMBER_OF_SIMPLE_COMMANDS 10
 #define MAX_NUMBER_OF_ARGUMENTS 10
 #define MAX_LEN_OF_ARG 20

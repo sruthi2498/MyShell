@@ -272,12 +272,23 @@ void prompt(){
        //fprintf(stdout, "Current working dir: %s\n", cwd);
     else
        perror("getcwd() error");
-    printf("\n%s%s",Prompt,cwd);
-    printf("$");
+    printf("\033[1;32m");
+    printf("\n%s",Prompt);
+    printf("\033[0m");
+   
+    printf("\033[1;35m");
+    printf("%s",cwd);
+    printf("\033[0m");
+
+    printf("\033[1;32m");
+    printf("$ ");
+    printf("\033[0m");
 }
 
 void quit(){
-    printf("\nExit...\n");
+    printf("\033[1;31m");
+    printf("\nEXIT ...\n");
+    printf("\033[0m");
     //fflush( stdout );
     CleanUpAliasTable();
     //printf("alias table clean\n");
