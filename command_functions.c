@@ -117,30 +117,34 @@ void execute(){
                 printf("Invalid alias, Expected more number of arguments\n");
                 return;
             }
+            else{
+                printf("Number of args %d\n", number_of_args);
+            }
             // strcpy(current_command,CurrentCommand._simpleCommands[i]._arguments[1]);
             
             // alias = strtok(current_command, "=");
             // printf("alias %s\n",alias);
             // command = strtok(NULL, "=");
             
-            //second last argument : aliasname
+            //second argument : aliasname
             //strcpy(alias,"");
-            alias=CurrentCommand._simpleCommands[i]._arguments[number_of_args-2];
+            printf("\n %s current\n", CurrentCommand._simpleCommands[i]._arguments[1]);
+            alias=CurrentCommand._simpleCommands[i]._arguments[1];
             command=malloc(sizeof(char)*20);
             strcpy(command,"");
-            //third last argument : "="
-            //fourth last argument : actual command starts
-            int command_start_arg=number_of_args-4;
-            //second argument : last arg in actual command
-            int command_end_arg=1;
+            //third argument : "="
+            //fourth argument : actual command starts
+            int command_start_arg=3;
+            //second last argument : last arg in actual command
+            int command_end_arg=number_of_args-1;
 
             int j=command_start_arg;
-            while(j>=command_end_arg){
+            while(j<command_end_arg){
                // printf("j %d\n",j);
                 //printf("arg : %s\n",CurrentCommand._simpleCommands[i]._arguments[j]);
                 strcat(command,CurrentCommand._simpleCommands[i]._arguments[j]);
                 strcat(command," ");
-                j--;
+                j++;
 
             }
             //printf("alias %s command %s\n",alias,command);

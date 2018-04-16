@@ -1,0 +1,1 @@
+#!/bin/hash ls
